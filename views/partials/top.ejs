@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title || "Корочки.есть" %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="/">
+        <span class="brand__dot">●</span> Корочки.есть
+      </a>
+
+      <nav class="nav">
+        <% if (session.userId) { %>
+          <a class="btn btn--ghost" href="/applications/new">+ Заявка</a>
+          <a class="btn btn--light" href="/logout">Выйти</a>
+        <% } else if (session.isAdmin) { %>
+          <a class="btn btn--ghost" href="/admin">Панель</a>
+          <a class="btn btn--light" href="/admin/logout">Выйти</a>
+        <% } else { %>
+          <a class="btn btn--ghost" href="/login">Вход</a>
+          <a class="btn btn--light" href="/register">Регистрация</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container pad">
+    <% for (const type of ["success","danger","warning","info"]) { %>
+      <% if (flash[type] && flash[type].length) { %>
+        <% flash[type].forEach(msg => { %>
+          <div class="alert alert--<%= type %>"><%= msg %></div>
+        <% }) %>
+      <% } %>
+    <% } %>

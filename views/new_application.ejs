@@ -1,0 +1,42 @@
+<% const title = "Новая заявка — Корочки.есть"; %>
+<%- include("partials/top", { title }) %>
+
+<section class="card card--glass narrow">
+  <h1 class="h1">Формирование заявки</h1>
+  <p class="muted">Выбери курс, дату начала и оплату.
+
+  <form class="form" method="post" action="/applications/new" novalidate>
+    <div class="field">
+      <label>Курс</label>
+      <select name="courseName">
+        <option value="">— выбери —</option>
+        <% courses.forEach(c => { %>
+          <option value="<%= c %>" <%= (values.courseName===c) ? "selected" : "" %>><%= c %></option>
+        <% }) %>
+      </select>
+      <% if (errors.courseName) { %><div class="error"><%= errors.courseName %></div><% } %>
+    </div>
+
+    <div class="field">
+      <label>Желаемая дата начала</label>
+      <input name="desiredStartDate" value="<%= values.desiredStartDate || '' %>" placeholder="ДД.ММ.ГГГГ" inputmode="numeric" />
+      <div class="hint">Формат строго ДД.ММ.ГГГГ (например 05.02.2026)</div>
+      <% if (errors.desiredStartDate) { %><div class="error"><%= errors.desiredStartDate %></div><% } %>
+    </div>
+
+    <div class="field">
+      <label>Способ оплаты</label>
+      <select name="paymentMethod">
+        <option value="">— выбери —</option>
+        <option value="cash" <%= (values.paymentMethod==="cash") ? "selected" : "" %>>Наличными</option>
+        <option value="phone_transfer" <%= (values.paymentMethod==="phone_transfer") ? "selected" : "" %>>Переводом по номеру телефона</option>
+      </select>
+      <% if (errors.paymentMethod) { %><div class="error"><%= errors.paymentMethod %></div><% } %>
+    </div>
+
+    <button class="btn btn--primary btn--block">Отправить</button>
+    <a class="btn btn--ghost btn--block" href="/applications">Назад к заявкам</a>
+  </form>
+</section>
+
+<%- include("partials/bottom") %>

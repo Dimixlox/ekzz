@@ -1,0 +1,53 @@
+<% const title = "Вход — Корочки.есть"; %>
+<%- include("partials/top", { title }) %>
+
+<div class="grid grid--2">
+  <section class="card card--glass">
+    <h1 class="h1">Вход</h1>
+    <p class="muted">Доступ к заявкам и обучению.</p>
+
+    <form class="form" method="post" action="/login" novalidate>
+      <div class="field">
+        <label>Логин</label>
+        <input name="login" value="<%= (values && values.login) ? values.login : '' %>" placeholder="Например: ivan123" />
+        <% if (errors && errors.login) { %><div class="error"><%= errors.login %></div><% } %>
+      </div>
+
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" name="password" placeholder="••••••••" />
+        <% if (errors && errors.password) { %><div class="error"><%= errors.password %></div><% } %>
+      </div>
+
+      <button class="btn btn--primary btn--block">Войти</button>
+    </form>
+
+    <div class="row row--space">
+      <a class="link" href="/register">Еще не зарегистрированы? Регистрация</a>
+      <a class="link" href="/admin/login">Я админ</a>
+    </div>
+  </section>
+
+  <section class="card card--glass card--slider">
+    <div class="slider__head">
+      <span class="pill">Слайдер</span>
+      <h2 class="h2">Курсы, которые реально зайдут</h2>
+      <p class="muted">Автопрокрутка каждые 3 секунды + кнопки вперед/назад.</p>
+    </div>
+
+    <div class="slider" data-interval="3000">
+      <button class="slider__btn slider__btn--prev" type="button" aria-label="Назад">‹</button>
+
+      <div class="slider__viewport">
+        <img class="slider__img is-active" src="/img/444.jpg" alt="Слайд 1" />
+        <img class="slider__img" src="/img/111.jpg" alt="Слайд 2" />
+        <img class="slider__img" src="/img/222.jfif" alt="Слайд 3" />
+        <img class="slider__img" src="/img/333.png" alt="Слайд 4" />
+      </div>
+
+      <button class="slider__btn slider__btn--next" type="button" aria-label="Вперед">›</button>
+    </div>
+  </section>
+</div>
+
+<%- include("partials/bottom") %>

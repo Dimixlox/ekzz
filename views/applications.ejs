@@ -1,0 +1,78 @@
+<% const title = "Мои заявки — Корочки.есть"; %>
+<%- include("partials/top", { title }) %>
+
+<div class="row row--space">
+  <div>
+    <h1 class="h1">Мои заявки</h1>
+    <p class="muted">Здесь все твои заявки + отзыв (когда курс пройден).</p>
+  </div>
+  <a class="btn btn--primary" href="/applications/new">+ Создать заявку</a>
+</div>
+
+<% if (apps && apps.length) { %>
+  <div class="stack">
+    <% apps.forEach(a => { %>
+      <article class="card card--glass">
+        <div class="row row--space row--wrap">
+          <div>
+            <div class="badges">
+              <span class="pill pill--primary">#<%= a.id %></span>
+              <span class="pill <%= a.status === "Обучение завершено" ? "pill--success" : (a.status === "Идет обучение" ? "pill--warn" : "pill--info") %>">
+                <%= a.status %>
+              </span>
+              <span class="muted small">создано: <%= new Date(a.created_at).toLocaleString("ru-RU") %></span>
+            </div>
+            <h2 class="h2 mt"><%= a.course_name %></h2>
+            <div class="muted">
+              Старт: <b><%= new Date(a.desired_start_date).toLocaleDateString("ru-RU") %></b> • Оплата:
+              <b><%= a.payment_method === "cash" ? "Наличными" : "Переводом по номеру телефона" %></b>
+            </div>
+          </div>
+
+          <% if (a.rating) { %>
+            <div class="right">
+              <span class="pill pill--dark">Отзыв: <%= a.rating %>/5</span>
+              <div class="muted small mt"><%= a.feedback_comment %></div>
+            </div>
+          <% } %>
+        </div>
+
+        <% if (a.status === "Обучение завершено" && !a.rating) { %>
+          <hr class="sep" />
+          <form class="form form--row" method="post" action="/applications/feedback" novalidate>
+            <input type="hidden" name="applicationId" value="<%= a.id %>" />
+            <div class="field mini">
+              <label>Оценка</label>
+              <select name="rating">
+                <option value="">—</option>
+                <% [1,2,3,4,5].forEach(r => { %>
+                  <option value="<%= r %>"><%= r %></option>
+                <% }) %>
+              </select>
+              <% if (errors.rating && values.applicationId == a.id) { %><div class="error"><%= errors.rating %></div><% } %>
+            </div>
+
+            <div class="field grow">
+              <label>Отзыв</label>
+              <textarea name="comment" rows="2" placeholder="Как оно было?"><%= (values.applicationId == a.id) ? (values.comment || "") : "" %></textarea>
+              <% if (errors.comment && values.applicationId == a.id) { %><div class="error"><%= errors.comment %></div><% } %>
+            </div>
+
+            <div class="field mini">
+              <label>&nbsp;</label>
+              <button class="btn btn--success btn--block">Отправить отзыв</button>
+            </div>
+          </form>
+        <% } else if (a.status !== "Обучение завершено") { %>
+          <div class="muted small mt">Отзыв откроется, когда админ поставит статус <b>«Обучение завершено»</b>.</div>
+        <% } %>
+      </article>
+    <% }) %>
+  </div>
+<% } else { %>
+  <section class="card card--glass">
+    Пока заявок нет. Жмякай <b>«Создать заявку»</b>
+  </section>
+<% } %>
+
+<%- include("partials/bottom") %>

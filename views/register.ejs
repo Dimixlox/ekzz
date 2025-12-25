@@ -1,0 +1,48 @@
+<% const title = "Регистрация"; %>
+<%- include("partials/top", { title }) %>
+
+<section class="card card--glass narrow">
+  <h1 class="h1">Регистрация</h1>
+  <p class="muted">Все поля обязательны.</p>
+
+  <form class="form" method="post" action="/register" novalidate>
+    <div class="grid grid--2-sm">
+      <div class="field">
+        <label>Логин</label>
+        <input name="login" value="<%= values.login || '' %>" placeholder="latin+digits, min 6" />
+        <% if (errors.login) { %><div class="error"><%= errors.login %></div><% } %>
+      </div>
+
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" name="password" placeholder="min 8 символов" />
+        <% if (errors.password) { %><div class="error"><%= errors.password %></div><% } %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>ФИО</label>
+      <input name="fullName" value="<%= values.fullName || '' %>" placeholder="Иванов Иван Иванович" />
+      <% if (errors.fullName) { %><div class="error"><%= errors.fullName %></div><% } %>
+    </div>
+
+    <div class="grid grid--2-sm">
+      <div class="field">
+        <label>Телефон</label>
+        <input name="phone" value="<%= values.phone || '' %>" placeholder="8(999)123-45-67" inputmode="numeric" />
+        <% if (errors.phone) { %><div class="error"><%= errors.phone %></div><% } %>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input name="email" value="<%= values.email || '' %>" placeholder="name@example.com" />
+        <% if (errors.email) { %><div class="error"><%= errors.email %></div><% } %>
+      </div>
+    </div>
+
+    <button class="btn btn--primary btn--block">Зарегистрироваться</button>
+    <a class="btn btn--ghost btn--block" href="/login">Уже есть аккаунт? Вход</a>
+  </form>
+</section>
+
+<%- include("partials/bottom") %>

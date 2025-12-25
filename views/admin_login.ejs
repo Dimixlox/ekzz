@@ -1,0 +1,27 @@
+<% const title = "Админ-вход — Корочки.есть"; %>
+<%- include("partials/top", { title }) %>
+
+<section class="card card--glass narrow">
+  <h1 class="h1">Админ-вход</h1>
+  <p class="muted"></p>
+
+  <% if (errors.form) { %><div class="alert alert--danger"><%= errors.form %></div><% } %>
+
+  <form class="form" method="post" action="/admin/login" novalidate>
+    <div class="field">
+      <label>Логин</label>
+      <input name="login" placeholder="Admin" />
+    </div>
+    <div class="field">
+      <label>Пароль</label>
+      <input type="password" name="password" placeholder="KorokNET" />
+    </div>
+    <button class="btn btn--primary btn--block">Войти</button>
+  </form>
+
+  <div class="mt">
+    <a class="link" href="/login">Назад к обычному входу</a>
+  </div>
+</section>
+
+<%- include("partials/bottom") %>

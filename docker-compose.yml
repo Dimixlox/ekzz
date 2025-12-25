@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: korochki_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: korochki_est
+      POSTGRES_USER: korok
+      POSTGRES_PASSWORD: korok
+    ports:
+      - "5432:5432"
+    volumes:
+      - korochki_pg_data:/var/lib/postgresql/data
+
+volumes:
+  korochki_pg_data:
